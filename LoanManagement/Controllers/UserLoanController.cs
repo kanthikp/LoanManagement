@@ -60,6 +60,69 @@ namespace LoanManagement.Controllers
                 return InternalServerError(nameof(Get), "GetObjectById", ex);
             }
         }
+
+        // POST api/loanmaster
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<UserLoan> Create([FromBody] UserLoan value)
+        {
+            string methodName = nameof(Create), title = Constants.Message.TitleCreateObject;
+            List<string> validationFailureMessages;
+
+            try
+            {
+                var isValid = ValidateRequest(HttpMethods.Post, value, null, out validationFailureMessages);
+                if (isValid)
+                {
+                    // For testing
+                    // throw new Exception($"Testing method {nameof(Create)}..................");
+
+                    return _userLoanRepository.Add(value);
+                }
+                else
+                {
+                    var errorMessage = GetFlattenedMessage(validationFailureMessages, Constants.Message.ValidationFailed);
+                    return BadRequestError(methodName, title, null, errorMessage);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return InternalServerError(methodName, title, ex);
+            }
+        }
+
+        // PUT api/loanmaster/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<UserLoan> Update(int id, [FromBody] UserLoan value)
+        {
+            string methodName = nameof(Update), title = Constants.Message.TitleUpdateObject;
+            List<string> validationFailureMessages;
+
+            try
+            {
+                var isValid = ValidateRequest(HttpMethods.Put, value, id, out validationFailureMessages);
+                if (isValid)
+                {
+                    return _userLoanRepository.Update(value);
+                }
+                else
+                {
+                    var errorMessage = GetFlattenedMessage(validationFailureMessages, Constants.Message.ValidationFailed);
+                    return BadRequestError(methodName, title, id, errorMessage);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return InternalServerError(methodName, title, ex);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -69,7 +132,7 @@ namespace LoanManagement.Controllers
            Exception ex)
         {
             var statusCode = StatusCodes.Status500InternalServerError;
-            var errorMessage = string.Format($"EXCEPTION: LoansController::{methodName}() >> StatusCode: {statusCode}, Message: '{ex.Message}'");
+            var errorMessage = string.Format($"EXCEPTION: UserLoanController::{methodName}() >> StatusCode: {statusCode}, Message: '{ex.Message}'");
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
@@ -85,6 +148,97 @@ namespace LoanManagement.Controllers
                 StatusCode = StatusCodes.Status500InternalServerError
             };
         }
-        #endregion
+
+        private bool ValidateRequest(
+            string httpMethod,
+            UserLoan value,
+            object param1,
+            out List<string> validationFailureMessages)
+        {
+            bool result = true;
+            validationFailureMessages = new List<string>();
+
+            if (HttpMethods.IsPost(httpMethod))
+            {
+                if (value.Id != 0)
+                {
+                    result = false;
+                    validationFailureMessages.Add(Constants.Message.ValidationFailedIdShouldBeNull);
+                }
+            }
+
+            if (HttpMethods.IsPut(httpMethod))
+            {
+                if (value.Id.ToString() != param1.ToString())
+                {
+                    result = false;
+                    validationFailureMessages.Add(Constants.Message.ValidationFailedIdsShouldMatch);
+                }
+            }
+
+            _appLogger.LogError($"UserLoanController::Validate(httpMethod: {httpMethod}, <value>, param1: {param1}) >> Result = {result}.");
+            return result;
+        }
+        private NotFoundObjectResult NotFoundError(
+            string methodName,
+            string title,
+            int id)
+        {
+            var statusCode = StatusCodes.Status404NotFound;
+            var problemDetail = new ProblemDetails()
+            {
+                Status = statusCode,
+                Instance = HttpContext.Request.Path,
+                Title = title,
+                Detail = string.Format($"UserLoan object with id '{id}' not found.")
+            };
+
+            _appLogger.LogError($"UserLoanController::{methodName}('{id}') >> StatusCode: {statusCode}");
+            return new NotFoundObjectResult(problemDetail)
+            {
+                ContentTypes = { Constants.Http.ContentType },
+                StatusCode = StatusCodes.Status404NotFound
+            };
+        }
+
+        private BadRequestObjectResult BadRequestError(
+            string methodName,
+            string title,
+            int? id,
+            string messageDetail)
+        {
+            var statusCode = StatusCodes.Status400BadRequest;
+            var problemDetail = new ProblemDetails()
+            {
+                Status = statusCode,
+                Instance = HttpContext.Request.Path,
+                Title = title,
+                Detail = messageDetail
+            };
+
+            _appLogger.LogError($"UserLoanController::{methodName}('{id}') >> StatusCode: {statusCode}");
+            return new BadRequestObjectResult(problemDetail)
+            {
+                ContentTypes = { Constants.Http.ContentType },
+                StatusCode = StatusCodes.Status400BadRequest
+            };
+        }
+
+        private string GetFlattenedMessage(List<string> messageList, string defaultMessage)
+        {
+            defaultMessage = defaultMessage ?? "(no default message set)";
+            var message = (messageList == null)
+                            ? defaultMessage
+                            : (
+                                    (messageList.Count == 0)
+                                        ? defaultMessage
+                                        : string.Join(", ", messageList)
+                                );
+
+            return message;
+        }
+
+        #endregion //Private Methods
+
     }
 }

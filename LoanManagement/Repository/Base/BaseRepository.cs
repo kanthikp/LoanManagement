@@ -27,7 +27,6 @@ namespace LoanManagement.Repository.Base
             return _dbContext.Set<TEntity>().ToList();
         }
 
-
         public TEntity Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
@@ -35,7 +34,6 @@ namespace LoanManagement.Repository.Base
             
             return entity;
         }
-
 
         public TEntity Update(TEntity entity)
         {

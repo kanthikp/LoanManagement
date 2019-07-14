@@ -27,7 +27,7 @@ namespace LoanManagement.Controllers
 
         #region Public REST Methods
 
-        // GET api/loans
+        // GET api/loanmaster
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -43,23 +43,94 @@ namespace LoanManagement.Controllers
             }
         }
 
-        // GET api/loans/5
+        // GET api/loanmaster/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<LoanMaster> GetObjectById(int Id)
+        public ActionResult<LoanMaster> GetObjectById(int id)
         {
-
+            string methodName = nameof(GetObjectById), title = Constants.Message.TitleGetObjectById;
             try
             {
-                return _loanMasterRepository.Get(Id);
+                var result = _loanMasterRepository.Get(id);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return NotFoundError(methodName, title, id);
+                }
             }
             catch (System.Exception ex)
             {
                 return InternalServerError(nameof(Get), "GetObjectById", ex);
             }
         }
+
+        // POST api/loanmaster
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<LoanMaster> Create([FromBody] LoanMaster value)
+        {
+            string methodName = nameof(Create), title = Constants.Message.TitleCreateObject;
+            List<string> validationFailureMessages;
+
+            try
+            {
+                var isValid = ValidateRequest(HttpMethods.Post, value, null, out validationFailureMessages);
+                if (isValid)
+                {
+                    // For testing
+                    // throw new Exception($"Testing method {nameof(Create)}..................");
+
+                    return _loanMasterRepository.Add(value);
+                }
+                else
+                {
+                    var errorMessage = GetFlattenedMessage(validationFailureMessages, Constants.Message.ValidationFailed);
+                    return BadRequestError(methodName, title, null, errorMessage);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return InternalServerError(methodName, title, ex);
+            }
+        }
+
+        // PUT api/loanmaster/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<LoanMaster> Update(int id, [FromBody] LoanMaster value)
+        {
+            string methodName = nameof(Update), title = Constants.Message.TitleUpdateObject;
+            List<string> validationFailureMessages;
+
+            try
+            {
+                var isValid = ValidateRequest(HttpMethods.Put, value, id, out validationFailureMessages);
+                if (isValid)
+                {
+                    return _loanMasterRepository.Update(value);
+                }
+                else
+                {
+                    var errorMessage = GetFlattenedMessage(validationFailureMessages, Constants.Message.ValidationFailed);
+                    return BadRequestError(methodName, title, id, errorMessage);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return InternalServerError(methodName, title, ex);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -69,7 +140,7 @@ namespace LoanManagement.Controllers
            Exception ex)
         {
             var statusCode = StatusCodes.Status500InternalServerError;
-            var errorMessage = string.Format($"EXCEPTION: LoansController::{methodName}() >> StatusCode: {statusCode}, Message: '{ex.Message}'");
+            var errorMessage = string.Format($"EXCEPTION: LoanMasterController::{methodName}() >> StatusCode: {statusCode}, Message: '{ex.Message}'");
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
@@ -84,7 +155,98 @@ namespace LoanManagement.Controllers
                 ContentTypes = { "application/problem+json" },
                 StatusCode = StatusCodes.Status500InternalServerError
             };
+        }    
+
+        private bool ValidateRequest(
+            string httpMethod,
+            LoanMaster value,
+            object param1,
+            out List<string> validationFailureMessages)
+        {
+            bool result = true;
+            validationFailureMessages = new List<string>();
+
+            if (HttpMethods.IsPost(httpMethod))
+            {
+                if (value.Id != 0)
+                {
+                    result = false;
+                    validationFailureMessages.Add(Constants.Message.ValidationFailedIdShouldBeNull);
+                }
+            }
+
+            if (HttpMethods.IsPut(httpMethod))
+            {
+                if (value.Id.ToString() != param1.ToString())
+                {
+                    result = false;
+                    validationFailureMessages.Add(Constants.Message.ValidationFailedIdsShouldMatch);
+                }
+            }
+
+            _appLogger.LogError($"LoanMasterController::Validate(httpMethod: {httpMethod}, <value>, param1: {param1}) >> Result = {result}.");
+            return result;
         }
-        #endregion
+        private NotFoundObjectResult NotFoundError(
+            string methodName,
+            string title,
+            int id)
+        {
+            var statusCode = StatusCodes.Status404NotFound;
+            var problemDetail = new ProblemDetails()
+            {
+                Status = statusCode,
+                Instance = HttpContext.Request.Path,
+                Title = title,
+                Detail = string.Format($"LoanMaster object with id '{id}' not found.")
+            };
+
+            _appLogger.LogError($"LoanMasterController::{methodName}('{id}') >> StatusCode: {statusCode}");
+            return new NotFoundObjectResult(problemDetail)
+            {
+                ContentTypes = { Constants.Http.ContentType },
+                StatusCode = StatusCodes.Status404NotFound
+            };
+        }
+
+        private BadRequestObjectResult BadRequestError(
+            string methodName,
+            string title,
+            int? id,
+            string messageDetail)
+        {
+            var statusCode = StatusCodes.Status400BadRequest;
+            var problemDetail = new ProblemDetails()
+            {
+                Status = statusCode,
+                Instance = HttpContext.Request.Path,
+                Title = title,
+                Detail = messageDetail
+            };
+
+            _appLogger.LogError($"LoanMasterController::{methodName}('{id}') >> StatusCode: {statusCode}");
+            return new BadRequestObjectResult(problemDetail)
+            {
+                ContentTypes = { Constants.Http.ContentType },
+                StatusCode = StatusCodes.Status400BadRequest
+            };
+        }
+
+        private string GetFlattenedMessage(List<string> messageList, string defaultMessage)
+        {
+            defaultMessage = defaultMessage ?? "(no default message set)";
+            var message = (messageList == null)
+                            ? defaultMessage
+                            : (
+                                    (messageList.Count == 0)
+                                        ? defaultMessage
+                                        : string.Join(", ", messageList)
+                                );
+
+            return message;
+        }
+
+        #endregion //Private Methods
+       
     }
 }
