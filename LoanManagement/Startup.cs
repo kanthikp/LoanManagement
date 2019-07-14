@@ -1,3 +1,4 @@
+using LoanManagement.Helper;
 using LoanManagement.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,9 +23,6 @@ namespace LoanManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<LoanMgmtContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoanMgmtConnection")));
-            services.AddScoped<ILoanRepository, LoanRepository>();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the React files will be served from this directory
@@ -32,6 +30,12 @@ namespace LoanManagement
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            // Dependency Injection
+            services.AddSingleton<IAppLogger>(new AppLogger());
+            services.AddDbContextPool<LoanMgmtContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoanMgmtConnection")));
+            services.AddScoped<ILoanMasterRepository, LoanMasterRepository>();
+            services.AddScoped<IUserLoanRepository, UserLoanRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanManagement.Domain
 {
-    public class Loan:BaseDomainModel
+    public class LoanMaster:BaseDomainModel
     {
         // Important Properties - Can be set only during object creation 
         [Required]
