@@ -3,25 +3,18 @@ const receiveUserLoansType = 'RECEIVE_USER_LOANS';
 const initialState = { userLoans: [], isLoading: false };
 
 export const actionCreators = {
-  requestUserLoans: () => async (dispatch) => {
+  requestUserLoans: () => async (dispatch) => {    
+   
 
+    dispatch({ type: requestUserLoansType });
 
-    //dispatch({ type: requestUserLoansType });
-
-    const url = `api/UserLoans`;
+    const url = `api/UserLoan`;
     const response = await fetch(url);
     const userLoans = await response.json();
 
     dispatch({ type: receiveUserLoansType, userLoans });
   }
 };
-
-// export const mapStateToProps = (state) => {
-//   return {
-//     type: receiveUserLoansType, userLoans: this.state.userLoans
-//   }
-// };
-
 
 export const reducer = (state, action) => {
   state = state || initialState;
