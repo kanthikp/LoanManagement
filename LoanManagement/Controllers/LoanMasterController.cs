@@ -39,7 +39,7 @@ namespace LoanManagement.Controllers
             }
             catch (System.Exception ex)
             {
-                return InternalServerError(nameof(Get), "GetAllObjects", ex);
+                return InternalServerError(nameof(Get), Constants.Message.TitleGetObjects, ex);
             }
         }
 
@@ -65,7 +65,7 @@ namespace LoanManagement.Controllers
             }
             catch (System.Exception ex)
             {
-                return InternalServerError(nameof(Get), "GetObjectById", ex);
+                return InternalServerError(methodName, title, ex);
             }
         }
 
@@ -84,9 +84,6 @@ namespace LoanManagement.Controllers
                 var isValid = ValidateRequest(HttpMethods.Post, value, null, out validationFailureMessages);
                 if (isValid)
                 {
-                    // For testing
-                    // throw new Exception($"Testing method {nameof(Create)}..................");
-
                     return _loanMasterRepository.Add(value);
                 }
                 else
@@ -144,7 +141,7 @@ namespace LoanManagement.Controllers
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
-                Instance = HttpContext.Request.Path,
+                Instance = HttpContext != null ? HttpContext.Request.Path.ToString() : "Test",
                 Title = title,
                 Detail = errorMessage
             };
@@ -196,7 +193,7 @@ namespace LoanManagement.Controllers
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
-                Instance = HttpContext.Request.Path,
+                Instance = HttpContext != null ? HttpContext.Request.Path.ToString() : "Test",
                 Title = title,
                 Detail = string.Format($"LoanMaster object with id '{id}' not found.")
             };
@@ -219,7 +216,7 @@ namespace LoanManagement.Controllers
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
-                Instance = HttpContext.Request.Path,
+                Instance = HttpContext != null ? HttpContext.Request.Path.ToString() : "Test",
                 Title = title,
                 Detail = messageDetail
             };

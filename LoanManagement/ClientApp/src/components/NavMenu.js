@@ -17,22 +17,22 @@ export default props => (
                 <LinkContainer to={'/'} exact>
                     <NavItem>
                         <Glyphicon glyph='home' /> Home
-          </NavItem>
+                    </NavItem>
                 </LinkContainer>
                 <LinkContainer to={'/counter'}>
                     <NavItem>
                         <Glyphicon glyph='education' /> Counter
-          </NavItem>
+                    </NavItem>
                 </LinkContainer>
                 <LinkContainer to={'/fetchdata'}>
                     <NavItem>
                         <Glyphicon glyph='th-list' /> Fetch data
-          </NavItem>
+                    </NavItem>
                 </LinkContainer>
-                <LinkContainer to={'/fetchdata'}>
+                <LinkContainer to={'/fetchUserLoans'}>
                     <NavItem>
-                        <Glyphicon glyph='th-list' /> Fetch multiple data
-          </NavItem>
+                        <Glyphicon glyph='th-list' /> Fetch UserLoans
+                    </NavItem>
                 </LinkContainer>
             </Nav>
         </Navbar.Collapse>

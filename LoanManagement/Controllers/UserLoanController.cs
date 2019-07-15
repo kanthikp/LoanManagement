@@ -39,7 +39,7 @@ namespace LoanManagement.Controllers
             }
             catch (System.Exception ex)
             {
-                return InternalServerError(nameof(Get), "GetAllObjects", ex);
+                return InternalServerError(nameof(Get), Constants.Message.TitleGetObjects, ex);
             }
         }
 
@@ -50,14 +50,23 @@ namespace LoanManagement.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<UserLoan> GetObjectById(int Id)
         {
+            string methodName = nameof(GetObjectById), title = Constants.Message.TitleGetObjectById;
 
             try
             {
-                return _userLoanRepository.Get(Id);
+                var result = _userLoanRepository.Get(Id);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return NotFoundError(methodName, title, Id);
+                }
             }
             catch (System.Exception ex)
             {
-                return InternalServerError(nameof(Get), "GetObjectById", ex);
+                return InternalServerError(methodName, title, ex);
             }
         }
 
@@ -76,9 +85,6 @@ namespace LoanManagement.Controllers
                 var isValid = ValidateRequest(HttpMethods.Post, value, null, out validationFailureMessages);
                 if (isValid)
                 {
-                    // For testing
-                    // throw new Exception($"Testing method {nameof(Create)}..................");
-
                     return _userLoanRepository.Add(value);
                 }
                 else
@@ -136,7 +142,7 @@ namespace LoanManagement.Controllers
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
-                Instance = HttpContext.Request.Path,
+                Instance = HttpContext != null ? HttpContext.Request.Path.ToString() : "Test",
                 Title = title,
                 Detail = errorMessage
             };
@@ -144,7 +150,7 @@ namespace LoanManagement.Controllers
             _appLogger.LogError(errorMessage);
             return new ObjectResult(problemDetail)
             {
-                ContentTypes = { "application/problem+json" },
+                ContentTypes = { Constants.Http.ContentType },
                 StatusCode = StatusCodes.Status500InternalServerError
             };
         }
@@ -167,7 +173,7 @@ namespace LoanManagement.Controllers
                 }
             }
 
-            if (HttpMethods.IsPut(httpMethod))
+            else if (HttpMethods.IsPut(httpMethod))
             {
                 if (value.Id.ToString() != param1.ToString())
                 {
@@ -175,7 +181,7 @@ namespace LoanManagement.Controllers
                     validationFailureMessages.Add(Constants.Message.ValidationFailedIdsShouldMatch);
                 }
             }
-
+           
             _appLogger.LogError($"UserLoanController::Validate(httpMethod: {httpMethod}, <value>, param1: {param1}) >> Result = {result}.");
             return result;
         }
@@ -188,7 +194,7 @@ namespace LoanManagement.Controllers
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
-                Instance = HttpContext.Request.Path,
+                Instance = HttpContext != null ? HttpContext.Request.Path.ToString() : "Test",
                 Title = title,
                 Detail = string.Format($"UserLoan object with id '{id}' not found.")
             };
@@ -211,7 +217,7 @@ namespace LoanManagement.Controllers
             var problemDetail = new ProblemDetails()
             {
                 Status = statusCode,
-                Instance = HttpContext.Request.Path,
+                Instance = HttpContext != null ? HttpContext.Request.Path.ToString() : "Test",
                 Title = title,
                 Detail = messageDetail
             };
