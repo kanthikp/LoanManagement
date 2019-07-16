@@ -9,9 +9,11 @@ class ApplyTopUp extends Component {
 
     render() {
         
-
+        const { topups } = this.props;
         return (
-            <button onClick={this.handleApplyTopup}>
+            
+            <button  disabled={(topups.length < 1)}
+                onClick={this.handleApplyTopup}>
                 Apply for Increased Loan amounts
             </button>
         );
