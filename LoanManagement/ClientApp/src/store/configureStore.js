@@ -6,13 +6,15 @@ import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
 import * as UserLoans from './UserLoans';
 import loanReducer from './reducers/loanReducer'
+import topupReducer from './reducers/topupReducer'
 
 export default function configureStore(history, initialState) {
   const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
     userLoans:UserLoans.reducer,
-    personalLoans: loanReducer
+    personalLoans: loanReducer,
+    topups: topupReducer
   };
 
   const middleware = [

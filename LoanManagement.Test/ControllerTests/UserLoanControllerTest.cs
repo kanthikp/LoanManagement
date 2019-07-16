@@ -17,14 +17,15 @@ namespace LoanManagement.Test
         {
             //Arrange
             var id = 1;
+            var userId = 1;
 
             var userLoan = new UserLoan
             {
                 Id = 1,
-                UserLoanId = "67853423187",
-                Interest = 375,
+                UserLoanNum = "67853423187",
+                InterestAmount = 375,
                 EarlyPaymentFee = 76,
-                Payout = 1990,
+                Balance = 1990,
                 AppliedForTopup = true,
                 LoanMasterId = 1,
                 CreatedOn = new DateTime(2019, 1, 1),
@@ -34,12 +35,12 @@ namespace LoanManagement.Test
 
             var mockUserLoanRepository = new Mock<IUserLoanRepository>();
             var mockAppLogger = new Mock<IAppLogger>();
-            mockUserLoanRepository.Setup(x => x.Get(id)).Returns(userLoan);
+            mockUserLoanRepository.Setup(x => x.GetByLoanIdUserId(id,userId)).Returns(userLoan);
 
             var controller = new UserLoanController(mockAppLogger.Object, mockUserLoanRepository.Object);
 
             //Act
-            var actual = controller.GetObjectById(id);
+            var actual = controller.GetObjectById(userId,id);
            
             //Assert
             Assert.Same(userLoan, actual.Value);
@@ -51,14 +52,15 @@ namespace LoanManagement.Test
         {
             //Arrange
             var id = 999;
+            var userId = 999;
 
             var mockUserLoanRepository = new Mock<IUserLoanRepository>();
             var mockAppLogger = new Mock<IAppLogger>();
-            mockUserLoanRepository.Setup(x => x.Get(id)).Returns<UserLoan>(null);
+            mockUserLoanRepository.Setup(x => x.GetByLoanIdUserId(id,userId)).Returns<UserLoan>(null);
 
             var controller = new UserLoanController(mockAppLogger.Object, mockUserLoanRepository.Object);
             //Act
-            var actual = controller.GetObjectById(id);
+            var actual = controller.GetObjectById(id, userId);
             //Assert
             Assert.Null( actual.Value);
             var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(actual.Result);
@@ -71,14 +73,15 @@ namespace LoanManagement.Test
         {
             //Arrange
             var id = 1;
+            var userId = 1;
 
             var mockUserLoanRepository = new Mock<IUserLoanRepository>();
             var mockAppLogger = new Mock<IAppLogger>();
-            mockUserLoanRepository.Setup(x => x.Get(id)).Throws(new InvalidOperationException());
+            mockUserLoanRepository.Setup(x => x.GetByLoanIdUserId(id,userId)).Throws(new InvalidOperationException());
 
             var controller = new UserLoanController(mockAppLogger.Object, mockUserLoanRepository.Object);
             //Act
-            var actual = controller.GetObjectById(id);
+            var actual = controller.GetObjectById(id,userId);
             //Assert
             Assert.Null(actual.Value);
             Assert.Equal(500, ((ObjectResult)actual.Result).StatusCode);
@@ -92,10 +95,10 @@ namespace LoanManagement.Test
 
             var userLoanInput = new UserLoan
             {
-                UserLoanId = "67853423187",
-                Interest = 375,
+                UserLoanNum = "67853423187",
+                InterestAmount = 375,
                 EarlyPaymentFee = 76,
-                Payout = 1990,
+                Balance = 1990,
                 AppliedForTopup = true,
                 LoanMasterId = 1,
                 CreatedOn = new DateTime(2019, 1, 1),
@@ -106,10 +109,10 @@ namespace LoanManagement.Test
             var userLoanOutput = new UserLoan
             {
                 Id=10,
-                UserLoanId = "67853423187",
-                Interest = 375,
+                UserLoanNum = "67853423187",
+                InterestAmount = 375,
                 EarlyPaymentFee = 76,
-                Payout = 1990,
+                Balance = 1990,
                 AppliedForTopup = true,
                 LoanMasterId = 1,
                 CreatedOn = new DateTime(2019, 1, 1),
@@ -139,10 +142,10 @@ namespace LoanManagement.Test
             var userLoanInput = new UserLoan
             {
                 Id = 10,
-                UserLoanId = "67853423187",
-                Interest = 375,
+                UserLoanNum = "67853423187",
+                InterestAmount = 375,
                 EarlyPaymentFee = 76,
-                Payout = 1990,
+                Balance = 1990,
                 AppliedForTopup = true,
                 LoanMasterId = 1,
                 CreatedOn = new DateTime(2019, 1, 1),

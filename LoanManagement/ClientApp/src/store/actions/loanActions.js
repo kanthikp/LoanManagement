@@ -1,6 +1,8 @@
 import {
   FETCH_LOANS_REQUEST,
   FETCH_LOANS_SUCCESS,
+  TOPUP_LOAN_ENABLE,
+  TOPUP_LOAN_DISABLE
 } from './actionTypes'
 
 export const actionCreators = {
@@ -14,7 +16,11 @@ export const actionCreators = {
     dispatch({ type: FETCH_LOANS_SUCCESS, userLoans })
   },
 
-  topUpLoan: loanId => (dispatch, getState) => {
-    // Do some action
+  topUpLoan: (loan, isEnabled) => (dispatch, getState) => {
+    if (isEnabled) {
+      dispatch({ type: TOPUP_LOAN_ENABLE, loan })
+    } else {
+      dispatch({ type: TOPUP_LOAN_DISABLE, loan})
+    }
   }
-}
+} 

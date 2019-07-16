@@ -35,7 +35,7 @@ namespace LoanManagement.Controllers
         {
             try
             {
-                return _userLoanRepository.GetAll().ToList();
+                return _userLoanRepository.GetByUserId(userId).ToList();
             }
             catch (System.Exception ex)
             {
@@ -48,13 +48,13 @@ namespace LoanManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<UserLoan> GetObjectById(int userId,int id)
+        public ActionResult<UserLoan> GetObjectById(int id, int userId)
         {
             string methodName = nameof(GetObjectById), title = Constants.Message.TitleGetObjectById;
 
             try
             {
-                var result = _userLoanRepository.Get(id);
+                var result = _userLoanRepository.GetByLoanIdUserId(id, userId);
                 if (result != null)
                 {
                     return result;

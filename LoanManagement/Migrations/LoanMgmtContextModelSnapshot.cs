@@ -47,29 +47,29 @@ namespace LoanManagement.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 591, DateTimeKind.Local).AddTicks(5495),
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 593, DateTimeKind.Local).AddTicks(8861),
                             InterestRate = 3.5,
                             Name = "asd",
                             Type = "Personal",
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 592, DateTimeKind.Local).AddTicks(8442)
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(970)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 592, DateTimeKind.Local).AddTicks(8922),
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(1413),
                             InterestRate = 4.5,
                             Name = "dfe",
                             Type = "Personal",
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 592, DateTimeKind.Local).AddTicks(8931)
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(1421)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 592, DateTimeKind.Local).AddTicks(8936),
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(1426),
                             InterestRate = 2.5,
                             Name = "wer",
                             Type = "Personal",
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 592, DateTimeKind.Local).AddTicks(8938)
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(1428)
                         });
                 });
 
@@ -81,19 +81,21 @@ namespace LoanManagement.Migrations
 
                     b.Property<bool>("AppliedForTopup");
 
+                    b.Property<double>("Balance");
+
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<double>("EarlyPaymentFee");
 
-                    b.Property<double>("Interest");
+                    b.Property<double>("InterestAmount");
 
                     b.Property<int>("LoanMasterId");
 
-                    b.Property<double>("Payout");
-
                     b.Property<DateTime>("UpdatedOn");
 
-                    b.Property<string>("UserLoanId")
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserLoanNum")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -107,109 +109,131 @@ namespace LoanManagement.Migrations
                         {
                             Id = 1,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3292),
+                            Balance = 1870.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5453),
                             EarlyPaymentFee = 67.0,
-                            Interest = 324.0,
+                            InterestAmount = 324.0,
                             LoanMasterId = 1,
-                            Payout = 1870.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3305),
-                            UserLoanId = "678523187"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5460),
+                            UserId = 1,
+                            UserLoanNum = "678523187"
                         },
                         new
                         {
                             Id = 2,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3331),
+                            Balance = 1902.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5488),
                             EarlyPaymentFee = 34.0,
-                            Interest = 546.0,
+                            InterestAmount = 546.0,
                             LoanMasterId = 1,
-                            Payout = 1902.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3333),
-                            UserLoanId = "345785234"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5490),
+                            UserId = 2,
+                            UserLoanNum = "345785234"
                         },
                         new
                         {
                             Id = 3,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3336),
+                            Balance = 3234.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5494),
                             EarlyPaymentFee = 267.0,
-                            Interest = 233.0,
+                            InterestAmount = 233.0,
                             LoanMasterId = 2,
-                            Payout = 3234.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3338),
-                            UserLoanId = "432578456"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5495),
+                            UserId = 2,
+                            UserLoanNum = "432578456"
                         },
                         new
                         {
                             Id = 4,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3340),
+                            Balance = 4678.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5498),
                             EarlyPaymentFee = 464.0,
-                            Interest = 234.0,
+                            InterestAmount = 234.0,
                             LoanMasterId = 2,
-                            Payout = 4678.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3342),
-                            UserLoanId = "245356733"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5500),
+                            UserId = 3,
+                            UserLoanNum = "245356733"
                         },
                         new
                         {
                             Id = 5,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3345),
+                            Balance = 1647.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5502),
                             EarlyPaymentFee = 89.0,
-                            Interest = 456.0,
+                            InterestAmount = 456.0,
                             LoanMasterId = 1,
-                            Payout = 1647.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3347),
-                            UserLoanId = "234677345"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5504),
+                            UserId = 3,
+                            UserLoanNum = "234677345"
                         },
                         new
                         {
                             Id = 6,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3351),
+                            Balance = 1094.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5509),
                             EarlyPaymentFee = 102.0,
-                            Interest = 343.0,
+                            InterestAmount = 343.0,
                             LoanMasterId = 2,
-                            Payout = 1094.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3353),
-                            UserLoanId = "549785345"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5511),
+                            UserId = 3,
+                            UserLoanNum = "549785345"
                         },
                         new
                         {
                             Id = 7,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3355),
+                            Balance = 2644.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5513),
                             EarlyPaymentFee = 98.0,
-                            Interest = 123.0,
+                            InterestAmount = 123.0,
                             LoanMasterId = 3,
-                            Payout = 2644.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3357),
-                            UserLoanId = "456845676"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5515),
+                            UserId = 4,
+                            UserLoanNum = "456845676"
                         },
                         new
                         {
                             Id = 8,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3360),
+                            Balance = 2355.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5518),
                             EarlyPaymentFee = 74.0,
-                            Interest = 435.0,
+                            InterestAmount = 435.0,
                             LoanMasterId = 3,
-                            Payout = 2355.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3362),
-                            UserLoanId = "345689678"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5520),
+                            UserId = 4,
+                            UserLoanNum = "345689678"
                         },
                         new
                         {
                             Id = 9,
                             AppliedForTopup = false,
-                            CreatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3364),
+                            Balance = 2345.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5522),
                             EarlyPaymentFee = 82.0,
-                            Interest = 265.0,
+                            InterestAmount = 265.0,
                             LoanMasterId = 3,
-                            Payout = 2345.0,
-                            UpdatedOn = new DateTime(2019, 7, 15, 0, 29, 50, 593, DateTimeKind.Local).AddTicks(3366),
-                            UserLoanId = "985467845"
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5524),
+                            UserId = 4,
+                            UserLoanNum = "985467845"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AppliedForTopup = false,
+                            Balance = 2345.0,
+                            CreatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5527),
+                            EarlyPaymentFee = 82.0,
+                            InterestAmount = 265.0,
+                            LoanMasterId = 3,
+                            UpdatedOn = new DateTime(2019, 7, 17, 2, 3, 37, 595, DateTimeKind.Local).AddTicks(5529),
+                            UserId = 4,
+                            UserLoanNum = "985435846"
                         });
                 });
 

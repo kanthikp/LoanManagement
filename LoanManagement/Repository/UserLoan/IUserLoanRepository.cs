@@ -9,6 +9,8 @@ namespace LoanManagement.Repository
 {
     public interface IUserLoanRepository:IBaseRepository<UserLoan>
     {
+        IEnumerable<UserLoan> GetByUserId(int userId);
+        UserLoan GetByLoanIdUserId(int id, int userId);
 
     }
 }

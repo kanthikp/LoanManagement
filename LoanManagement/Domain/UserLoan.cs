@@ -9,14 +9,16 @@ namespace LoanManagement.Domain
     public class UserLoan:BaseDomainModel
     {
         [Required]
-        public string UserLoanId { get; set; }
+        public int UserId { get; set; }
+        [Required]
+        public string UserLoanNum { get; set; }
 
         [Required]
-        public double Interest { get; set; }
+        public double InterestAmount { get; set; }
         [Required]
         public double EarlyPaymentFee { get; set; }
         [Required]
-        public double Payout { get; set; }
+        public double Balance { get; set; }
         public bool AppliedForTopup { get; set; }
         public int LoanMasterId { get; set; }
         public LoanMaster LoanMaster { get; set; }
