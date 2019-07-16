@@ -12,7 +12,7 @@ using LoanManagement.Helper;
 
 namespace LoanManagement.Controllers
 {
-    [Route("api/UserLoan")]
+    [Route("api/users/{userId}/loans")]
     [ApiController]
     public class UserLoanController : ControllerBase
     {
@@ -31,7 +31,7 @@ namespace LoanManagement.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<IEnumerable<UserLoan>> Get()
+        public ActionResult<IEnumerable<UserLoan>> Get(int userId)
         {
             try
             {
@@ -48,20 +48,20 @@ namespace LoanManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<UserLoan> GetObjectById(int Id)
+        public ActionResult<UserLoan> GetObjectById(int userId,int id)
         {
             string methodName = nameof(GetObjectById), title = Constants.Message.TitleGetObjectById;
 
             try
             {
-                var result = _userLoanRepository.Get(Id);
+                var result = _userLoanRepository.Get(id);
                 if (result != null)
                 {
                     return result;
                 }
                 else
                 {
-                    return NotFoundError(methodName, title, Id);
+                    return NotFoundError(methodName, title, id);
                 }
             }
             catch (System.Exception ex)
@@ -181,7 +181,7 @@ namespace LoanManagement.Controllers
                     validationFailureMessages.Add(Constants.Message.ValidationFailedIdsShouldMatch);
                 }
             }
-           
+
             _appLogger.LogError($"UserLoanController::Validate(httpMethod: {httpMethod}, <value>, param1: {param1}) >> Result = {result}.");
             return result;
         }
