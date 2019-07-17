@@ -1,8 +1,11 @@
+using LoanManagement.Helper;
+using LoanManagement.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +30,12 @@ namespace LoanManagement
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            // Dependency Injection
+            services.AddSingleton<IAppLogger>(new AppLogger());
+            services.AddDbContextPool<LoanMgmtContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoanMgmtConnection")));
+            services.AddScoped<ILoanMasterRepository, LoanMasterRepository>();
+            services.AddScoped<IUserLoanRepository, UserLoanRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

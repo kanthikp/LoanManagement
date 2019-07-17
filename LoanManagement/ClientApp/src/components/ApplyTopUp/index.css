@@ -1,0 +1,20 @@
+
+.btn-TopUp {
+
+
+    border: 1px solid lightgray;
+    border-radius: 40px;
+    background: transparent;
+    transition: all 0.3s ease 0s;
+  }
+  
+  .btn-TopUp:hover:enabled {
+    background: rgba(170, 165, 165, 0.75);
+  }
+
+  .btn-TopUp:disabled {
+    color: lightgray;
+   
+  }
+
+  button:focus {outline:0;}

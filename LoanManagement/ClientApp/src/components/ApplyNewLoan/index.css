@@ -1,0 +1,17 @@
+.btn-NewLoan {    
+    letter-spacing: 1px;
+    line-height: 15px;
+    border: 1px solid lightgray;
+    border-radius: 40px;
+    background: transparent;
+    transition: all 0.3s ease 0s;
+  }
+  
+  .btn-NewLoan:hover:enabled {
+    background: rgba(170, 165, 165, 0.75);
+  }
+
+  .btn-NewLoan:disabled {
+    color: lightgray;
+   
+  }

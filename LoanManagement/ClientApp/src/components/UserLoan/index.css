@@ -1,0 +1,39 @@
+/* .container {
+    display: table;
+    border: solid 1px black;
+    }
+
+  .row  {
+    display: table-row;
+    padding:5px;
+    }
+
+  .left, .right, .middle {
+    display: table-cell;
+    }
+
+  .topup{
+    display: inline-block;
+  } */
+
+.userLoan {
+  width: 90%;
+}
+
+.userLoanTable {
+  background: lightgray;
+}
+
+.userLoanHead {
+  background: lightgray;
+}
+
+.table-bordered>tbody>tr>td, .table-bordered>thead>tr>td, .table-bordered {
+
+  border:solid 1px black;
+}
+
+.table-bordered>tbody>tr>td,  .table-bordered {
+  background-color: white;
+
+}
