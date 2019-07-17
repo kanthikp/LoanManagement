@@ -1,8 +1,7 @@
 
 .btn-TopUp {
 
-    letter-spacing: 1px;
-    line-height: 15px;
+
     border: 1px solid lightgray;
     border-radius: 40px;
     background: transparent;
@@ -17,3 +16,5 @@
     color: lightgray;
    
   }
+
+  button:focus {outline:0;}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Money from '../Money'
 
 class UserLoanDetail extends Component {
   render() {
@@ -10,27 +11,24 @@ class UserLoanDetail extends Component {
     }
 
     return (
-      <div>
-        <table className="table table-bordered">
-          <tbody>
-            <tr>
-              <td>Balance includes Interest of</td>
-              <td>{loan.interestAmount}</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>Early Repayment Fee</td>
-              <td>{loan.earlyPaymentFee}</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>Payout / Carry Over Amount</td>
-              <td><b>{loan.balance + loan.interestAmount + loan.earlyPaymentFee }</b></td>
-              <td>This amount will be carried over</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <React.Fragment>
+        <tr>
+          <td>Balance includes Interest of</td>
+          <td>
+            <Money amount={loan.interestAmount} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Early Repayment Fee</td>
+          <td><Money amount={loan.earlyPaymentFee} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Payout / Carry Over Amount</td>
+          <td><b><Money amount={loan.balance + loan.interestAmount + loan.earlyPaymentFee} /></b></td>
+          <td>This amount will be carried over</td>
+        </tr>
+      </React.Fragment>
     );
   }
 }

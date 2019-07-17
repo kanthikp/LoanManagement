@@ -1,25 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import './index.css'
 
-class NewLoanEliglible extends Component {
-    handleNewLoanEliglible() {
-        console.log("NewLoan Applied")
-        //call webpi to apply for a new loan
-    }
-
-    render() {
-        const { topups } = this.props;
-        return (
-            
-            <div className={(topups.length < 3) ? 'hidden' : ''} >
-          With 3 or more current Personal Loans, a new Loan application is not possible  in this flow
-          </div>
-
-        );
-    }
-}
-
-export default connect(
-    state => state.topups,
-    null
-)(NewLoanEliglible);
+const NewLoanEliglible = () =>(
+    <div className="bs-callout bs-callout-info"> With 3 or more current Personal Loans, a new Loan application is not possible  in this flow</div>
+)
+export default NewLoanEliglible;

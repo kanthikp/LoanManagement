@@ -35,7 +35,8 @@ namespace LoanManagement.Controllers
         {
             try
             {
-                return _userLoanRepository.GetByUserId(userId).ToList();
+               //return InternalServerError(nameof(Get), Constants.Message.TitleGetObjects, new Exception("Test exception"));
+               return _userLoanRepository.GetByUserId(userId).ToList();
             }
             catch (System.Exception ex)
             {

@@ -10,9 +10,9 @@ class ApplyNewLoan extends Component {
     }
 
     render() {
-        const { topups } = this.props;
+        const { personalLoans } = this.props;
         return (
-            <button className='btn-NewLoan' disabled={!(topups.length < 3)}
+            <button className='btn btn-NewLoan' disabled={!(personalLoans.length < 3)}
                 onClick={this.handleApplyNewLoan}>
                 Apply for new Personal Loan
             </button>
@@ -21,6 +21,6 @@ class ApplyNewLoan extends Component {
 }
 
 export default connect(
-    state => state.topups,
+    state => state.personalLoans,
     null
 )(ApplyNewLoan);

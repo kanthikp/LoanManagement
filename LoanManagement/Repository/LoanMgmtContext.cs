@@ -26,7 +26,7 @@ namespace LoanManagement.Repository
                     new LoanMaster() {Id=1, Name = "Temporibus autem", Type = "Personal", InterestRate = 3.5, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
                     new LoanMaster() {Id=2, Name = "Placeat facere", Type = "Personal", InterestRate = 4.5, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
                     new LoanMaster() {Id=3, Name = "Dolorem ipsum quia", Type = "Personal", InterestRate = 2.5, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
-new LoanMaster() {Id=4, Name = "Reprehenderit qui", Type = "Personal", InterestRate = 2.5, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now }
+                    new LoanMaster() {Id=4, Name = "Reprehenderit qui", Type = "Personal", InterestRate = 2.5, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now }
 
             };
 
