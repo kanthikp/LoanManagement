@@ -6,10 +6,15 @@ class TopUpTotal extends Component {
         const { topups } = this.props
 
         return (
-            <p>${topups.length > 0
-                ? topups.map(l => l.balance + l.interestAmount + l.earlyPaymentFee)
-                    .reduce((a, b) => a + b)
-                : 0}</p>
+            <div>
+                <label> Carryover / Payout Amount</label>
+
+                <p>${topups.length > 0
+                    ? topups.map(l => l.balance + l.interestAmount + l.earlyPaymentFee)
+                        .reduce((a, b) => a + b)
+                    : 0}
+                </p>
+            </div>
         );
     }
 }

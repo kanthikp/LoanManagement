@@ -27,3 +27,10 @@
 .rTableBody {
     display: table-row-group;
 }
+
+.userLoanApply{
+    width: 100%;
+}
+.userLoanCollection{
+    width: 80%;
+}

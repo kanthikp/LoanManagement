@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import './index.css';
+
 class ApplyNewLoan extends Component {
     handleApplyNewLoan() {
         console.log("NewLoan Applied")
@@ -10,9 +12,9 @@ class ApplyNewLoan extends Component {
     render() {
         const { topups } = this.props;
         return (
-            <button disabled={!(topups.length < 3)}
+            <button className='btn-NewLoan' disabled={!(topups.length < 3)}
                 onClick={this.handleApplyNewLoan}>
-                Apply for Increased Loan amounts
+                Apply for new Personal Loan
             </button>
         );
     }

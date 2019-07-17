@@ -11,8 +11,8 @@ class PersonalLoanCounter extends Component {
         const {personalLoans} = this.props
 
         return (
-                
-                `You have ${personalLoans.length} Personal Loans`
+
+                `You have ${personalLoans.length} Personal Loan${personalLoans.length>1?'s':''}`
             
         );
     }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import './index.css';
+
 class ApplyTopUp extends Component {
     handleApplyTopup() {
         console.log("Topup Applied")
@@ -12,7 +14,7 @@ class ApplyTopUp extends Component {
         const { topups } = this.props;
         return (
             
-            <button  disabled={(topups.length < 1)}
+            <button className='btn-TopUp'  disabled={(topups.length < 1)}
                 onClick={this.handleApplyTopup}>
                 Apply for Increased Loan amounts
             </button>

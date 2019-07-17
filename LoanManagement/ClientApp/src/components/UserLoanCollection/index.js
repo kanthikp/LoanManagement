@@ -39,13 +39,18 @@ class UserLoanCollection extends Component {
   render() {
     const { loans , topups} = this.props
     return (
-      <div>
-        <div>Personal Loan TopUp or Apply</div>
+      <div className="userLoanApply">
+        <h4>Personal Loan TopUp or Apply</h4>
+        {/* <div className="userLoanCollection">
+          <div>
+          To apply for a TopUp of an existing loan amount, please select the loan below, make note of the Carry-over amount before processing.
+          </div>
+        </div> */}
         <table className="table table-bordered">
           <tbody>
             <tr>
               <td>To apply for a TopUp of an existing loan amount, please select the loan below, make note of the Carry-over amount before processing.</td>
-              <td>Carryover / Payout Amount</td>
+
               <td> <TopUpTotal topups={topups} ></TopUpTotal></td>
               <td><ApplyTopUp topups={topups}></ApplyTopUp>  </td>
 
@@ -53,13 +58,11 @@ class UserLoanCollection extends Component {
             <tr>
               <td></td>
               <td></td>
-              <td></td>
               <td><ApplyNewLoan userId={this.props.match.params.userId} topups={topups}></ApplyNewLoan></td>
             </tr>
             
             <tr>
               <td><PersonalLoanCounter personalLoans={loans}></PersonalLoanCounter></td>
-              <td></td>
               <td></td>
               <td><NewLoanEligible personalLoans={loans}></NewLoanEligible></td>
             </tr>
