@@ -3,7 +3,7 @@
 ## Overview
 A new WebAPI and a SPA have been created to  enable the users to apply for topups and new loans.
 
-### Features Implemented
+### Technical Features Implemented
 #### WebAPI
 * EFCore Code first approach is used to create the database
 * Used Repository pattern to fetch the data 
