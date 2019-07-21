@@ -13,10 +13,29 @@ namespace LoanManagement.Repository
     public class LoanMgmtContext : DbContext
     {
 
-        public LoanMgmtContext(DbContextOptions<LoanMgmtContext> options) : base(options)
-        {
+        public AppSettingsDataStore AppSettingsDataStore { get; private set; }
+        private IAppLogger _appLogger;
 
+        public LoanMgmtContext(
+            IAppLogger appLogger,
+            IOptions<AppSettingsDataStore> appSettingsDataStore)
+        {
+            _appLogger = appLogger;
+            AppSettingsDataStore = appSettingsDataStore.Value;
         }
+
+        public LoanMgmtContext(
+            IAppLogger appLogger,
+            AppSettingsDataStore appSettings)
+        {
+            _appLogger = appLogger;
+            AppSettingsDataStore = appSettings;
+        }
+
+        //public LoanMgmtContext(DbContextOptions<LoanMgmtContext> options) : base(options)
+        //{
+
+        //}
         public DbSet<LoanMaster> LoanMasters { get; set; }
         public DbSet<UserLoan> UserLoans { get; set; }
 
@@ -48,6 +67,27 @@ namespace LoanManagement.Repository
             };
 
             modelBuilder.Entity<UserLoan>().HasData(userLoans.ToArray());
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            _appLogger.LogError(message: $"DataStore Type: '{AppSettingsDataStore.Type}', ConnectionString: '{AppSettingsDataStore.ConnectionString}'");
+            switch (AppSettingsDataStore.Type)
+            {
+                case "InMemoryDatabase":
+                    optionsBuilder.UseInMemoryDatabase(AppSettingsDataStore.Name, null);
+                    break;
+                case "Sqlite":
+                    optionsBuilder.UseSqlite(AppSettingsDataStore.ConnectionString);
+                    break;
+                case "SqlServer":
+                    optionsBuilder.UseSqlServer(AppSettingsDataStore.ConnectionString);
+                    break;
+                default:
+                    _appLogger.LogError(message: $"PenMgmtContext::OnConfiguring() >> Invalid DataStore Type '{AppSettingsDataStore.Type}' configured. NOT SUPPORTED.");
+                    // TODO: Throw error and exit
+                    break;
+            }
         }
     }
 }

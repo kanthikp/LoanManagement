@@ -7,6 +7,10 @@ namespace LoanManagement
 {
     public class Constants
     {
+        public class AppConfiguration
+        {
+            public static readonly string DataStore = "DataStore";
+        }
 
         public class Http
         {
