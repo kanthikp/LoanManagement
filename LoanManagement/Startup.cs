@@ -33,7 +33,10 @@ namespace LoanManagement
 
             // Dependency Injection
             services.AddSingleton<IAppLogger>(new AppLogger());
-            services.AddDbContextPool<LoanMgmtContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoanMgmtConnection")));
+
+            services.Configure<AppSettingsDataStore>(Configuration.GetSection(Constants.AppConfiguration.DataStore));
+            services.AddDbContext<LoanMgmtContext>();
+            //services.AddDbContextPool<LoanMgmtContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoanMgmtConnection")));
             services.AddScoped<ILoanMasterRepository, LoanMasterRepository>();
             services.AddScoped<IUserLoanRepository, UserLoanRepository>();
         }
